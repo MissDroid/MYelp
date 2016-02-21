@@ -28,6 +28,7 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         searchBar.delegate = self
         searchBar.sizeToFit()
         navigationItem.titleView = searchBar
+        filteredData = businesses
         
         
         
@@ -57,6 +58,25 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         // Dispose of any resources that can be recreated.
     }
     
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
+        let cell = tableView.dequeueReusableCellWithIdentifier("BusinessCell", forIndexPath: indexPath) as! BusinessCell
+        cell.business = businesses[indexPath.row]
+        return cell
+        
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        if businesses != nil
+        {
+        return businesses.count
+        }
+        else {
+        return 0
+        }
+    
+    }
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty
@@ -80,33 +100,18 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         tableView.reloadData()
     }
 
+    
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
         self.searchBar.showsCancelButton = true
     }
     
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    {
-        if businesses != nil
-        {
-        return businesses.count
-        }
-        else {
-        return 0
-        }
-    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
-    {
-        let cell = tableView.dequeueReusableCellWithIdentifier("BusinessCell", forIndexPath: indexPath) as! BusinessCell
-        
-            cell.business = businesses[indexPath.row]
-        
-        
-        return cell
-        
-    }
+
 
     /*
     // MARK: - Navigation
