@@ -80,6 +80,10 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         tableView.reloadData()
     }
 
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        self.searchBar.showsCancelButton = true
+    }
+    
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
