@@ -39,6 +39,9 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
                 print(business.name!)
                 print(business.address!)
             }
+            
+            self.tableView.reloadData()
+            
         })
 
 /* Example of Yelp search with more search options specified
@@ -58,6 +61,19 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         // Dispose of any resources that can be recreated.
     }
     
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        if filteredData != nil
+        {
+        return filteredData.count
+        }
+        else {
+        return 0
+        }
+    
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCellWithIdentifier("BusinessCell", forIndexPath: indexPath) as! BusinessCell
@@ -66,17 +82,6 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    {
-        if businesses != nil
-        {
-        return businesses.count
-        }
-        else {
-        return 0
-        }
-    
-    }
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty
@@ -85,8 +90,7 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         }
         else
         {
-            filteredData = businesses.filter({(dataItem:Business) -> Bool in
-                
+            filteredData = businesses.filter({(dataItem: Business) -> Bool in
                 if dataItem.name!.rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil
                 {
                     return true
@@ -95,11 +99,11 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
                 {
                     return false
                 }
-            })
-        }
+        })
+    }
         tableView.reloadData()
     }
-
+    
     
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
         self.searchBar.showsCancelButton = true
